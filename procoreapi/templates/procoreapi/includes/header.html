@@ -1,0 +1,22 @@
+{% load static %}
+
+{% block css_files %}
+    <link rel='stylesheet' href='{% static "procoreapi/includes/header.css" %}'>
+{% endblock %}
+
+{% block header %}
+    <header class="header" id='header'>
+        <div class="logo-and-headline" id="logo-and-headline" >
+            <img src="{% static 'images/logo.svg' %}">
+            <h1 class="heading" id='heading'><a href="{% url 'dashboard' %}">Core ProManager</a></h1>
+        </div>
+        <div class="user" id='user'>
+            <img src="{% static 'images/user.png' %}">
+            <p>{{ user.username }}</p>
+            <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="log-out" id='log-out'>Log Out</button>
+            </form>
+        </div>
+  </header>
+{% endblock %}

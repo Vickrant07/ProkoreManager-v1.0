@@ -1,0 +1,21 @@
+#action-tab {
+    padding: 1rem;
+    max-width: 90%;
+    margin: 2rem auto;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #307e6c, #2b996d);
+    text-align: center;
+  }
+
+  #pagination a:link, #pagination a:visited {
+    color: #001b15;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  #pagination a:hover, #pagination a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: underline;
+  }
+  

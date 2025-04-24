@@ -1,0 +1,70 @@
+{% load static %}
+
+{% block css_files %}
+    <link rel='stylesheet' href='{% static "procoreapi/includes/filters.css" %}'>
+{% endblock %}
+
+
+{% block filters %}
+    <div class="filters" id='filters'>
+        <form action="filtered_projects_by_stage" method="POST">
+            {% csrf_token %}
+            <label htmlFor="filter-by-stage">Filter by Main Stage</label>
+            <select name="filter-by-stage" class="filter-by-stage" id='filter-by-stage'>
+                <option class="hidden" id="hidden" hidden>Please Select a Stage</option>
+                {% for stages_option in stages_options %}
+                <option value="{{ stages_option.project_stage_name }}">{{ stages_option.project_stage_name }}</option>
+                {% endfor %}
+            </select>
+            <p class="filter-actions" id='filter-actions'>
+                <button type="submit" class="apply-filters" id='apply-filters' onclick="location.href='{% url 'filter_projects_by_stage' %}'">
+                    Apply Filter
+                </button>
+                <button type="button" class="filters-reset" id='filters-reset'>
+                    <a href="{% url 'dashboard' %}">Reset</a>
+                </button>
+            </p>
+        </form>
+        <form action="filtered_projects_by_pm" method="POST">
+            {% csrf_token %}
+            <label htmlFor="filter-by-pm">Filter by Project Manager</label>
+            <select name="filter-by-pm" class="filter-by-pm" id='filter-by-pm'>
+                <option class="hidden" id="hidden" hidden>Please Select a Project Manager</option>
+                {% for pm_option in pm_options %}
+                <option value="{{ pm_option.project_manager }}">{{ pm_option.project_manager }}</option>
+                {% endfor %}
+            </select>
+            <p class="filter-actions" id='filter-actions'>
+                <button type="submit" class="apply-filters" id='apply-filters' onclick="location.href='{% url 'filter_projects_by_pm' %}'">
+                    Apply Filter
+                </button>
+                <button type="button" class="filters-reset" id='filters-reset'>
+                    <a href="{% url 'dashboard' %}">Reset</a>
+                </button>
+            </p>
+        </form>
+        <form action="filtered_projects_by_qc" method="POST">
+            {% csrf_token %}
+            <label htmlFor="filter-by-qc">Filter by QC Mid/Final</label>
+            <select name="filter-by-qc" class="filter-by-qc" id='filter-by-qc'>
+                <option class="hidden" id="hidden" hidden>Please Select a Stage</option>
+                {% for qc_option in qc_options %}
+                <option value="{{ qc_option.qc_stage_name }}">{{ qc_option.qc_stage_name }}</option>
+                {% endfor %}
+            </select>
+            <p class="filter-actions" id='filter-actions'>
+                <button type="submit" class="apply-filters" id='apply-filters' onclick="location.href='{% url 'filter_projects_by_qc' %}'">
+                    Apply Filter
+                </button>
+                <button type="button" class="filters-reset" id='filters-reset'>
+                    <a href="{% url 'dashboard' %}">Reset</a>
+                </button>
+            </p>
+        </form>
+        <div class="action-thing" id="action-thing">
+            <p class='project-count' id='project-count'>Showing {{total_project_in_db}} of {{total_project_in_db}} projects.</p>
+        </div>
+    </div>
+
+{% endblock %}
+

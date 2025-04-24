@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}" >
+        <title>{% block page_title %}Prokore Manager{% endblock %}</title>
+        {% block css_files %} {% endblock %}  
+    </head>
+    <body>
+            {% block content %}
+            {% endblock %}
+            <script>
+                document.addEventListener("DOMContentLoaded", function (event) {
+                  var scrollpos = localStorage.getItem("scrollpos");
+                  if (scrollpos) window.scrollTo(0, scrollpos);
+                });
+              
+                window.onscroll = function (e) {
+                  localStorage.setItem("scrollpos", window.scrollY);
+                };
+            </script>
+        </div>
+    </body>
+</html>
+

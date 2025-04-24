@@ -1,0 +1,27 @@
+{% load static %}
+
+{% block css_files %}
+    <link rel='stylesheet' href='{% static "procoreapi/includes/search.css" %}'>
+{% endblock %}
+
+{% block search %}
+  <form action="searched_projects" method="POST" class="search" id='search'>
+    {% csrf_token %}
+    <p>
+      <label htmlFor="search-input">Search by Project Name</label>
+      <input name="search-input"
+        class="search-input" 
+        id='search-input'>
+    </p>
+    <p class="search-actions" id='search-actions'>
+      <button type="submit" class="search-button" id='search-button'>
+        Search
+      </button>
+      <button type="button" class="search-reset" id='search-reset'>
+        <a href="{% url 'dashboard' %}">Reset</a>
+      </button>
+    </p>
+  </form>
+
+{% endblock %}
+

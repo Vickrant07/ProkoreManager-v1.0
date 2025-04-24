@@ -1,0 +1,21 @@
+{% extends base.html %}
+{% load static %}
+
+{% block css_files %}
+    <link rel='stylesheet' href='{% static "css/index.css" %}'>
+    <link rel='stylesheet' href='{% static "css/404.css" %}'>
+{% endblock %}
+
+{% block page_title %}
+    Something went wrong!
+{% endblock %}
+
+{% block content %}
+    <div class="error-message" id='error-message'>
+        <h1>Something went wrong!</h1>
+        <p>Sorry, something went wrong.</p>
+        <p>Please try again later.</p>
+        <p><a href="{% url 'home' %}">Home</a></p>
+    </div>
+{% endblock %}
+

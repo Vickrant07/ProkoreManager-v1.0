@@ -1,0 +1,103 @@
+#table-container {
+  overflow: auto;
+}
+
+#table {
+  width: auto;
+  height:min-content;
+  max-width: 50rem;
+  margin: 2rem auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  table-layout: fixed;
+  border-spacing: 0.5rem;
+  text-align: center;
+  position: relative;
+}
+
+#table thead {
+  font-size: 0.9rem;
+  color: #83e6c0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#table tbody {
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 0.85rem;
+  color: #c2e9e0;
+}
+
+.default {
+  /* width: 100%; */
+  padding: 0.5rem;
+  border: 1px solid #76c0ae;
+  border-radius: 0.25rem;
+  background-color: #255c4f;
+  color: #c2e9e0;
+  font-size: 0.75rem;
+}
+
+#headcol {
+  background: rgb(59, 50, 162);
+  position: sticky;
+  left: 0;
+}
+
+tbody tr:hover {
+  background-color: #2b996d;
+}
+
+#table th {
+  background: rgb(192, 74, 74);
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.lightgreen {
+  padding: 0.5rem;
+  border: 1px solid #76c0ae;
+  border-radius: 0.25rem;
+  background-color: rgb(0, 156, 52);
+  color: #c2e9e0;
+  font-size: 0.75rem;
+}
+
+.amber {
+  padding: 0.5rem;
+  border: 1px solid #76c0ae;
+  border-radius: 0.25rem;
+  background-color: #b37a00;
+  color: #c2e9e0;
+  font-size: 0.75rem;
+}
+
+.lightyellow {
+  padding: 0.5rem;
+  border: 1px solid #76c0ae;
+  border-radius: 0.25rem;
+  background-color: #909000;
+  color: #c2e9e0;
+  font-size: 0.75rem;
+}
+
+.lightred {
+  padding: 0.5rem;
+  border: 1px solid #76c0ae;
+  border-radius: 0.25rem;
+  background-color: #a01414;
+  color: #c2e9e0;
+  font-size: 0.75rem;
+}
+
+.lightblue {
+  padding: 0.5rem;
+  border: 1px solid #76c0ae;
+  border-radius: 0.25rem;
+  background-color: #3969cf;
+  color: #c2e9e0;
+  font-size: 0.75rem;
+}

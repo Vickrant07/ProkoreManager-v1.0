@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+    <link rel='stylesheet' href='{% static "css/index.css" %}'>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% block header %}
+    {% include 'procoreapi/includes/header.html' %}
+    {% endblock %}
+    {% block search %}
+    {% include 'procoreapi/includes/search.html' %}
+    {% endblock %}
+    {% block filters %}
+    {% include 'procoreapi/includes/filters.html' %}
+    {% endblock %}
+    <div class="search-filter-text" id="search-filter-text">
+        <h5>Filter Results for Project Manager: {{ filter_stage }}</h5>
+    </div>
+    {% block pagination1 %}
+        {% include 'procoreapi/includes/pagination.html' %}
+    {% endblock %}
+    {% block table %}
+    {% include 'procoreapi/includes/table.html' %}
+    {% endblock %}
+    {% block pagination2 %}
+        {% include 'procoreapi/includes/pagination.html' %}
+    {% endblock %}
+    {% block footer %}
+    {% include 'procoreapi/includes/footer.html' %}
+    {% endblock %}
+{% else %}
+    <div id='fallback-text'>
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">Log In</a>
+    </div>
+{% endif %}
+{% endblock %}

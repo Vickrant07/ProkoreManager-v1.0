@@ -1,0 +1,25 @@
+#footer {
+  padding: 1rem;
+  max-width: 60%;
+  margin: 2rem auto;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #307e6c, #2b996d);
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  align-items: center;
+}
+
+#export_to_excel {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: linear-gradient(180deg, #1f584b, #17493d);
+  color: #c2e9e0;
+  font-family: "Roboto Condensed", sans-serif;
+  cursor: pointer;
+}
+
+#export_to_excel:hover {
+  background: linear-gradient(180deg, #1b5346, #113c32);
+}

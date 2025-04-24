@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_files %}
+    <link rel='stylesheet' href='{% static "css/index.css" %}'>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    {% block header %}
+    {% include 'procoreapi/includes/header.html' %}
+    {% endblock %}
+    <div id='fallback-text'>
+        <p>You are logged in!</p>
+        <a href="{% url 'dashboard' %}">Go to Dashboard</a>
+    </div>
+{% else %}
+    <div id='fallback-text'>
+        <p>You are not logged in!</p>
+        <a href="{% url 'login' %}">Log In</a>
+    </div>
+{% endif %}
+{% endblock %}
