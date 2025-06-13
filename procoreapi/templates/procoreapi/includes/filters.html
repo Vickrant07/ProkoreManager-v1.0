@@ -4,57 +4,80 @@
     <link rel='stylesheet' href='{% static "procoreapi/includes/filters.css" %}'>
 {% endblock %}
 
-
 {% block filters %}
-    <div class="filters" id='filters'>
-        <form action="filtered_projects_by_stage" method="POST">
+    <div class="filters-container" id='filters-container'>
+        <form action="filtered_projects" method="POST" >
             {% csrf_token %}
-            <label htmlFor="filter-by-stage">Filter by Main Stage</label>
-            <select name="filter-by-stage" class="filter-by-stage" id='filter-by-stage'>
-                <option class="hidden" id="hidden" hidden>Please Select a Stage</option>
-                {% for stages_option in stages_options %}
-                <option value="{{ stages_option.project_stage_name }}">{{ stages_option.project_stage_name }}</option>
-                {% endfor %}
-            </select>
+            <div class="filters" id='filters'>
+                <div class="fiter" id='filter'>
+                    <label htmlFor="filter_by_stage">Filter by Project Stage</label>
+                    <select name="filter_by_stage" class="filter_by_stage" id='filter_by_stage'>
+                        {% if filters_input.filter_by_stage %}
+                            <option class="hidden" id="hidden" hidden>{{ filters_input.filter_by_stage }}</option>
+                        {% else %}
+                            <option class="hidden" id="hidden" hidden>Please Select a Stage</option>
+                        {% endif %}
+                        {% for stages_option in stages_options %}
+                        <option value="{{ stages_option.project_stage_name }}">{{ stages_option.project_stage_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="fiter" id='filter'>
+                    <label htmlFor="filter_by_pm">Filter by Project Manager</label>
+                    <select name="filter_by_pm" class="filter_by_pm" id='filter_by_pm'>
+                        {% if filters_input.filter_by_pm %}
+                            <option class="hidden" id="hidden" hidden>{{ filters_input.filter_by_pm }}</option>
+                        {% else %}          
+                            <option class="hidden" id="hidden" hidden>Please Select a Project Manager</option>
+                        {% endif %}
+                        {% for pm_option in pm_options %}
+                        <option value="{{ pm_option.project_manager }}">{{ pm_option.project_manager }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="fiter" id='filter'>
+                    <label htmlFor="filter_by_office">Filter by Office</label>
+                    <select name="filter_by_office" class="filter_by_office" id='filter_by_office'>
+                        {% if filters_input.filter_by_office %}
+                            <option class="hidden" id="hidden" hidden>{{ filters_input.filter_by_office }}</option>
+                        {% else %}
+                            <option class="hidden" id="hidden" hidden>Please Select an Office</option>
+                        {% endif %}
+                        {% for project_office in project_offices %}
+                        <option value="{{ project_office.project_offices }}">{{ project_office.project_offices }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="fiter" id='filter'>
+                    <label htmlFor="filter_by_qc">Filter by QC Mid/Final Stage</label>
+                    <select name="filter_by_qc" class="filter_by_qc" id='filter_by_qc'>
+                        {% if filters_input.filter_by_qc %}
+                            <option class="hidden" id="hidden" hidden>{{ filters_input.filter_by_qc }}</option>
+                        {% else %}
+                            <option class="hidden" id="hidden" hidden>Please Select a Stage</option>
+                        {% endif %}
+                        {% for qc_option in qc_options %}
+                        <option value="{{ qc_option.qc_stage_name }}">{{ qc_option.qc_stage_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="fiter" id='filter'>
+                    <label htmlFor="filter_by_co_invoices">Filter by C/O Invoices Stage</label>
+                    <select name="filter_by_co_invoices" class="filter_by_co_invoices" id='filter_by_co_invoices'>
+                        {% if filters_input.filter_by_co_invoices %}
+                            <option class="hidden" id="hidden" hidden>{{ filters_input.filter_by_co_invoices }}</option>
+                        {% else %}
+                            <option class="hidden" id="hidden" hidden>Please Select a Stage</option>
+                        {% endif %}
+                        {% for co_invoices_option in co_invoices_options %}
+                        <option value="{{ co_invoices_option.co_invoices_status_name }}">{{ co_invoices_option.co_invoices_status_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
             <p class="filter-actions" id='filter-actions'>
-                <button type="submit" class="apply-filters" id='apply-filters' onclick="location.href='{% url 'filter_projects_by_stage' %}'">
-                    Apply Filter
-                </button>
-                <button type="button" class="filters-reset" id='filters-reset'>
-                    <a href="{% url 'dashboard' %}">Reset</a>
-                </button>
-            </p>
-        </form>
-        <form action="filtered_projects_by_pm" method="POST">
-            {% csrf_token %}
-            <label htmlFor="filter-by-pm">Filter by Project Manager</label>
-            <select name="filter-by-pm" class="filter-by-pm" id='filter-by-pm'>
-                <option class="hidden" id="hidden" hidden>Please Select a Project Manager</option>
-                {% for pm_option in pm_options %}
-                <option value="{{ pm_option.project_manager }}">{{ pm_option.project_manager }}</option>
-                {% endfor %}
-            </select>
-            <p class="filter-actions" id='filter-actions'>
-                <button type="submit" class="apply-filters" id='apply-filters' onclick="location.href='{% url 'filter_projects_by_pm' %}'">
-                    Apply Filter
-                </button>
-                <button type="button" class="filters-reset" id='filters-reset'>
-                    <a href="{% url 'dashboard' %}">Reset</a>
-                </button>
-            </p>
-        </form>
-        <form action="filtered_projects_by_qc" method="POST">
-            {% csrf_token %}
-            <label htmlFor="filter-by-qc">Filter by QC Mid/Final</label>
-            <select name="filter-by-qc" class="filter-by-qc" id='filter-by-qc'>
-                <option class="hidden" id="hidden" hidden>Please Select a Stage</option>
-                {% for qc_option in qc_options %}
-                <option value="{{ qc_option.qc_stage_name }}">{{ qc_option.qc_stage_name }}</option>
-                {% endfor %}
-            </select>
-            <p class="filter-actions" id='filter-actions'>
-                <button type="submit" class="apply-filters" id='apply-filters' onclick="location.href='{% url 'filter_projects_by_qc' %}'">
-                    Apply Filter
+                <button type="submit" class="apply-filters" id='apply-filters'>
+                    Apply Filter(s)
                 </button>
                 <button type="button" class="filters-reset" id='filters-reset'>
                     <a href="{% url 'dashboard' %}">Reset</a>

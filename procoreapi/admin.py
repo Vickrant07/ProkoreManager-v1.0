@@ -5,8 +5,6 @@ from .models import *
 
 admin.site.register(ProjectDetails)
 
-admin.site.register(CorrespondenceTypeID)
-
 admin.site.register(WindowStatusID)
 
 admin.site.register(CwiStatusID)
@@ -31,9 +29,6 @@ admin.site.register(AtticStatusID)
 
 admin.site.register(DraughtProofingStatusID)
 
-admin.site.register(GniStages)
-
-admin.site.register(EsbStages)
 
 admin.site.register(CompanyProjectStages)
 

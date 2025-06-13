@@ -13,7 +13,7 @@
         <h1>Sign Up</h1>
         <form method='post'>
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form.as_p }} {# This will render form fields as paragraphs #}
             <button type='submit'>Sign Up</button>
         </form>
         <p><a href="{% url 'login' %}">Log In</a></p>

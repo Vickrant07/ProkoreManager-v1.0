@@ -23,52 +23,82 @@ LD_LIBRARY_PATH="/usr/local/lib"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+
+# =============================
+# Django Project Settings File
+# =============================
+#
+# This file contains all the configuration for your Django project.
+# It is divided into logical sections for clarity and maintainability.
+#
+# For more information, see:
+# https://docs.djangoproject.com/en/4.2/topics/settings/
+#
+
+# =============================
+# Security & Environment
+# =============================
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')  # Loaded from .env for security
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # Set to True only for local development
 
+# Hosts/domain names that are valid for this site
 ALLOWED_HOSTS = [ 
-    'core-promanager.onrender.com',
-    '*',
+    'prokore-manager.onrender.com',  # Your production domain
+    '*',  # Remove '*' in production for better security
 ]
 
-# Application definition
-
+# =============================
+# Application Definition
+# =============================
 INSTALLED_APPS = [
-    'procoreapi',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'accounts',
+    'procoreapi',  # Your custom app for Procore integration
+    'django.contrib.admin',  # Django admin interface
+    'django.contrib.auth',  # Authentication framework
+    'django.contrib.contenttypes',  # Content type system
+    'django.contrib.sessions',  # Session framework
+    'django.contrib.messages',  # Messaging framework
+    'django.contrib.sites',  # Sites framework
+    'whitenoise.runserver_nostatic',  # Whitenoise for static files
+    'django.contrib.staticfiles',  # Static files (CSS, JS, Images)
+    'rest_framework',  # Django REST Framework
+    'accounts',  # Custom user accounts app
 ]
 
+# Site ID for django.contrib.sites
+SITE_ID = 1
+
+# =============================
+# Middleware
+# =============================
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',  # Security enhancements
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files efficiently
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Session management
+    'django.middleware.common.CommonMiddleware',  # Common HTTP features
+    'django.middleware.csrf.CsrfViewMiddleware',  # CSRF protection
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # User authentication
+    'django.contrib.messages.middleware.MessageMiddleware',  # Messaging
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # Clickjacking protection
 ]
 
+# =============================
+# URL Configuration
+# =============================
 ROOT_URLCONF = 'promanage.urls'
 
-# By default django looks at apps templates/ folder in the installed app.
+# =============================
+# Templates
+# =============================
+# By default Django looks at each app's templates/ folder.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [ 
-            BASE_DIR/'templates',  # for global templates
-            BASE_DIR/'procoreapi/templates',  # for api templates
+            BASE_DIR/'templates',  # Global templates
+            BASE_DIR/'procoreapi/templates',  # API-specific templates
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -82,12 +112,15 @@ TEMPLATES = [
     },
 ]
 
+# =============================
+# WSGI Application
+# =============================
 WSGI_APPLICATION = 'promanage.wsgi.application'
 
-
+# =============================
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# =============================
+# Default: SQLite (for development). Use PostgreSQL or MySQL in production.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -132,6 +165,7 @@ USE_TZ = True
 STATIC_URL = '/static/' 
 
 if DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_DIRS = [
         BASE_DIR / 'static',
         BASE_DIR / 'procoreapi/static',
@@ -149,57 +183,36 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/procoreapi/dashboard'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = "login" 
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR/'sent_emails'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    # 'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'formatters': {
-        'django.server': {
-            '()': 'django.utils.log.ServerFormatter',
-            'format': '[{server_time}] {message}',
-            'style': '{',
-        }
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            #'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-        },
-        'django.server': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'django.server',
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            #'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
-        },
-        'django.server': {
-            'handlers': ['django.server'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    }
-}
+## Custom Authentication Backend
+# This allows authentication using email instead of username
+AUTHENTICATION_BACKENDS = ['procoreapi.auth_backends.EmailBackend']
+
+
+# For development (prints emails to console)
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# For production (uses SMTP)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.smtp2go.com'
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = True  # Use TLS for security
+EMAIL_USE_SSL = False  # Do not use SSL, as TLS is preferred
+DEFAULT_FROM_EMAIL = 'vickrantbawankule@koreretrofit.com' # Default email address for various automated correspondence
+EMAIL_HOST_USER = 'koreretrofit.com'  # Your email address
+EMAIL_HOST_PASSWORD = 'vJUJmKNFMTj2Y7sI' # Your email app password (not your regular password)
+
+# You might also want to set these:
+SERVER_EMAIL = EMAIL_HOST_USER # For error messages to admins
+ADMINS = [('Vickrant B', EMAIL_HOST_USER)] # For site admins to receive error notifications
+MANAGERS = ADMINS
+
+# Message storage backend
+# This is used to store messages in the session
+# so they can be displayed to the user after a redirect
+MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'

@@ -9,9 +9,10 @@ body {
   font-family: "Quicksand", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #242a28; */
-  background: radial-gradient(#303b37, #1a1f1d);
-  color: #e1eeeb;
+  background-color: #faf8f9;
+  /* background: linear-gradient(#ffffff, #ffdba5); */
+  /* background-attachment: fixed; */
+  color: #faf8f9;
 }
 
 #fallback-text {
@@ -19,11 +20,11 @@ body {
   max-width: 60%;
   margin: 2rem auto;
   border-radius: 4px;
-  background: linear-gradient(180deg, #307e6c, #2b996d);
+  background: linear-gradient(180deg, #41d8dd, #5583ee);
 }
 
 #search-filter-text {
   align-content: center;
   padding-left: 10rem;
+  color: black;
 }
-

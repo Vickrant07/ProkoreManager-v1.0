@@ -12,22 +12,25 @@
           <th>Project Name</th>
           <th>Project Number</th>
           <th>Office</th>
-          <th>Main Stage (Admin)</th>
-          <th>GNI (Admin)</th>
-          <th>ESB (Admin)</th>
-          <th>WINDOW</th>
+          <th>Project Stage</th>
+          <th>QC Mid/Final</th>
+          <th>EWI</th>
           <th>CWI</th>
-          <th>OIL BOILER</th>
-          <th>OIL TANK</th>
-          <th>EWI</th>        
-          <th>PLUMBING</th>
-          <th>IWI</th>
-          <th>AIRTIGHTNESS</th>
+          <th>Plumbing</th>
+          <th>Attic</th>
           <th>RTV</th>
+          <th>DCV</th>
+          <th>Solar</th>        
+          <th>Windows</th>
           <th>MEV</th>
-          <th>ATTIC</th>
-          <th>DRAUGHTPROOFING</th>
-          <th>QC Mid/Final (Admin)</th>
+          <th>Airtightness</th>
+          <th>IWI</th>
+          <th>Floor</th>
+          <th>MVHR</th>
+          <th>Draughtproofing</th>
+          <th>Final BER</th>
+          <th>DOW</th>
+          <th>C/O Invoices</th>
           <th>Project Name</th>
         </tr>
       </thead>
@@ -68,19 +71,21 @@
             <form method='post' action="">
               {% csrf_token %}
               
-              {% if project.GNI_STATUS == '020 Pre-Survey' %}
-              <select name="gni" class="amber" id='options' onchange="submit()">
-              {% elif project.GNI_STATUS == '030 Booked' %}
-              <select name="gni" class="lightgreen" id='options' onchange="submit()">
-              {% elif project.GNI_STATUS == '040 Complete' or project.GNI_STATUS == '090 READY TO PAY - certs received' or project.GNI_STATUS == '100 Closed and paid' %}
-              <select name="gni" class="lightblue" id='options' onchange="submit()">
+              {% if project.QC_STATUS == '010 NOT READY FOR MID' %}
+              <select name="qc_mid_final" class="lightyellow" id='options' onchange="submit()">
+              {% elif project.QC_STATUS == '030 MID COMPLETE - SNAGS FOUND' or project.QC_STATUS == '070 FINAL COMPLETE - SNAGS' or project.QC_STATUS == '080 FINAL COMPLETE SEAI REWORKS' %}
+              <select name="qc_mid_final" class="amber" id='options' onchange="submit()">
+              {% elif project.QC_STATUS == '020 READY FOR MIDWORKS' or project.QC_STATUS == '050 READY FOR FINAL QC' %}
+              <select name="qc_mid_final" class="lightred" id='options' onchange="submit()">
+              {% elif project.QC_STATUS == '040 MID COMPLETE - PASS' or project.QC_STATUS == '060 FINAL COMPLETE PASS' %}
+              <select name="qc_mid_final" class="lightblue" id='options' onchange="submit()">
               {% else %}
-              <select name="gni" class="default" id='options' onchange="submit()">
+              <select name="qc_mid_final" class="default" id='options' onchange="submit()">
               {% endif %}
                 
-              <option class="hidden" id="hidden" hidden>{{ project.GNI_STATUS }}</option>
-                {% for gni_option in gni_options %}
-                <option value="{{gni_option.gni_stage_name}}_{{project.project_id}}">{{ gni_option.gni_stage_name }}</option>
+                <option class="hidden" id="hidden" hidden>{{ project.QC_STATUS }}</option>
+                {% for qc_option in qc_options %}
+                <option value="{{qc_option.qc_stage_name}}_{{project.project_id}}">{{ qc_option.qc_stage_name }}</option>
                 {% endfor %}
               </select>
             </form>
@@ -89,50 +94,29 @@
             <form method='post' action="">
               {% csrf_token %}
               
-              {% if project.ESB_STATUS == '020 Pre-Survey' %}
-              <select name="esb" class="amber" id='options' onchange="submit()">
-              {% elif project.ESB_STATUS == '030 ESB booked' or project.ESB_STATUS == '040 Unclipped' or project.ESB_STATUS == '050 Reclip booked' or project.ESB_STATUS == '060 Reclipped' %}
-              <select name="esb" class="lightgreen" id='options' onchange="submit()">
-              {% elif project.ESB_STATUS == '070 Complete' %}
-              <select name="esb" class="lightblue" id='options' onchange="submit()">
+              {% if project.EWI_STATUS == '10 OPEN FOR SURVEY' or project.EWI_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+              <select name="ewi" class="lightyellow" id='options' onchange="submit()">
+              {% elif project.EWI_STATUS == '30 WORK ALLOCATED' or project.EWI_STATUS == '70 QC COMPLETE - SNAGS' or project.EWI_STATUS == '60 COMPLETE AWAITING QC' %}
+              <select name="ewi" class="amber" id='options' onchange="submit()">
+              {% elif project.EWI_STATUS == '40 ALLOCATED & VARIATIONS' or project.EWI_STATUS == '50 WORK IN PROGRESS' or project.EWI_STATUS == '45 Allocated Ready to Start' %}
+              <select name="ewi" class="lightgreen" id='options' onchange="submit()">
+              {% elif project.EWI_STATUS == '80 QC COMPLETE - PASS' or project.EWI_STATUS == '90 PAID & CLOSED' or project.EWI_STATUS == '100 CANCELLED CLOSED' or project.EWI_STATUS == 'Closed' %}
+              <select name="ewi" class="lightblue" id='options' onchange="submit()">
               {% else %}
-              <select name="esb" class="default" id='options' onchange="submit()">
+              <select name="ewi" class="default" id='options' onchange="submit()">
               {% endif %}
-                
-              <option class="hidden" id="hidden" hidden>{{ project.ESB_STATUS }}</option>
-                {% for esb_option in esb_options %}
-                <option value="{{esb_option.esb_stage_name}}_{{project.project_id}}">{{ esb_option.esb_stage_name }}</option>
-                {% endfor %}
-              </select>
-            </form>
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-              
-              {% if project.WINDOW_STATUS == '10 OPEN FOR SURVEY' or project.WINDOW_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-              <select name="window" class="lightyellow" id='options' onchange="submit()">
-              {% elif project.WINDOW_STATUS == '30 WORK ALLOCATED' or project.WINDOW_STATUS == '70 QC COMPLETE - SNAGS' or project.WINDOW_STATUS == '60 COMPLETE AWAITING QC' %}
-              <select name="window" class="amber" id='options' onchange="submit()">
-              {% elif project.WINDOW_STATUS == '40 ALLOCATED & VARIATIONS' or project.WINDOW_STATUS == '50 WORK IN PROGRESS' or project.WINDOW_STATUS == '45 Allocated Ready to Start' %}
-              <select name="window" class="lightgreen" id='options' onchange="submit()">
-              {% elif project.WINDOW_STATUS == '80 QC COMPLETE - PASS' or project.WINDOW_STATUS == '90 PAID & CLOSED' or project.WINDOW_STATUS == '100 CANCELLED CLOSED' or project.WINDOW_STATUS == 'Closed' %}
-              <select name="window" class="lightblue" id='options' onchange="submit()">
-              {% else %}
-              <select name="window" class="default" id='options' onchange="submit()">
-              {% endif %}
-                
-              <option class="hidden" id="hidden" hidden>{{ project.WINDOW_STATUS }}</option>
-                {% for window_option in window_options %}
-                <option value="{{window_option.window_status_name}}_{{project.project_id}}">{{ window_option.window_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
 
+                <option class="hidden" id="hidden" hidden>{{ project.EWI_STATUS }}</option>
+                {% for ewi_option in ewi_options %}
+                <option value="{{ewi_option.ewi_status_name}}_{{project.project_id}}">{{ ewi_option.ewi_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
                 {% if project.CWI_STATUS == '10 OPEN FOR SURVEY' or project.CWI_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
                 <select name="cwi" class="lightyellow" id='options' onchange="submit()">
                 {% elif project.CWI_STATUS == '30 WORK ALLOCATED' or project.CWI_STATUS == '70 QC COMPLETE - SNAGS' or project.CWI_STATUS == '60 COMPLETE AWAITING QC' %}
@@ -144,82 +128,13 @@
                 {% else %}
                 <select name="cwi" class="default" id='options' onchange="submit()">
                 {% endif %}
-                
+
                 <option class="hidden" id="hidden" hidden>{{ project.CWI_STATUS }}</option>
                 {% for cwi_option in cwi_options %}
                 <option value="{{cwi_option.cwi_status_name}}_{{project.project_id}}">{{ cwi_option.cwi_status_name }}</option>
                 {% endfor %}
               </select>
             </form>
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-
-                {% if project.OIL_BOILER_STATUS == '10 OPEN FOR SURVEY' or project.OIL_BOILER_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-                <select name="oil_boiler" class="lightyellow" id='options' onchange="submit()">
-                {% elif project.OIL_BOILER_STATUS == '30 WORK ALLOCATED' or project.OIL_BOILER_STATUS == '70 QC COMPLETE - SNAGS' or project.OIL_BOILER_STATUS == '60 COMPLETE AWAITING QC' %}
-                <select name="oil_boiler" class="amber" id='options' onchange="submit()">
-                {% elif project.OIL_BOILER_STATUS == '40 ALLOCATED & VARIATIONS' or project.OIL_BOILER_STATUS == '50 WORK IN PROGRESS' or project.OIL_BOILER_STATUS == '45 Allocated Ready to Start' %}
-                <select name="oil_boiler" class="lightgreen" id='options' onchange="submit()">
-                {% elif project.OIL_BOILER_STATUS == '80 QC COMPLETE - PASS' or project.OIL_BOILER_STATUS == '90 PAID & CLOSED' or project.OIL_BOILER_STATUS == '100 CANCELLED CLOSED' or project.OIL_BOILER_STATUS == 'Closed' %}
-                <select name="oil_boiler" class="lightblue" id='options' onchange="submit()">
-                {% else %}
-                <select name="oil_boiler" class="default" id='options' onchange="submit()">
-                {% endif %}
-
-                <option class="hidden" id="hidden" hidden>{{ project.OIL_BOILER_STATUS }}</option>
-                {% for oil_boiler_option in oil_boiler_options %}
-                <option value="{{oil_boiler_option.oil_boiler_status_name}}_{{project.project_id}}">{{ oil_boiler_option.oil_boiler_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>  
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-
-                {% if project.OIL_TANK_STATUS == '10 OPEN FOR SURVEY' or project.OIL_TANK_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-                <select name="oil_tank" class="lightyellow" id='options' onchange="submit()">
-                {% elif project.OIL_TANK_STATUS == '30 WORK ALLOCATED' or project.OIL_TANK_STATUS == '70 QC COMPLETE - SNAGS' or project.OIL_TANK_STATUS == '60 COMPLETE AWAITING QC' %}
-                <select name="oil_tank" class="amber" id='options' onchange="submit()">
-                {% elif project.OIL_TANK_STATUS == '40 ALLOCATED & VARIATIONS' or project.OIL_TANK_STATUS == '50 WORK IN PROGRESS' or project.OIL_TANK_STATUS == '45 Allocated Ready to Start' %}
-                <select name="oil_tank" class="lightgreen" id='options' onchange="submit()">
-                {% elif project.OIL_TANK_STATUS == '80 QC COMPLETE - PASS' or project.OIL_TANK_STATUS == '90 PAID & CLOSED' or project.OIL_TANK_STATUS == '100 CANCELLED CLOSED' or project.OIL_TANK_STATUS == 'Closed' %}
-                <select name="oil_tank" class="lightblue" id='options' onchange="submit()">
-                {% else %}
-                <select name="oil_tank" class="default" id='options' onchange="submit()">
-                {% endif %}
-              
-                <option class="hidden" id="hidden" hidden>{{ project.OIL_TANK_STATUS }}</option>
-                {% for oil_tank_option in oil_tank_options %}
-                <option value="{{oil_tank_option.oil_tank_status_name}}_{{project.project_id}}">{{ oil_tank_option.oil_tank_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-              
-                {% if project.EWI_STATUS == '10 OPEN FOR SURVEY' or project.EWI_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-                <select name="ewi" class="lightyellow" id='options' onchange="submit()">
-                {% elif project.EWI_STATUS == '30 WORK ALLOCATED' or project.EWI_STATUS == '70 QC COMPLETE - SNAGS' or project.EWI_STATUS == '60 COMPLETE AWAITING QC' %}
-                <select name="ewi" class="amber" id='options' onchange="submit()">
-                {% elif project.EWI_STATUS == '40 ALLOCATED & VARIATIONS' or project.EWI_STATUS == '50 WORK IN PROGRESS' or project.EWI_STATUS == '45 Allocated Ready to Start' %}
-                <select name="ewi" class="lightgreen" id='options' onchange="submit()">
-                {% elif project.EWI_STATUS == '80 QC COMPLETE - PASS' or project.EWI_STATUS == '90 PAID & CLOSED' or project.EWI_STATUS == '100 CANCELLED CLOSED' or project.EWI_STATUS == 'Closed' %}
-                <select name="ewi" class="lightblue" id='options' onchange="submit()">
-                {% else %}
-                <select name="ewi" class="default" id='options' onchange="submit()">
-                {% endif %}
-
-                <option class="hidden" id="hidden" hidden>{{ project.EWI_STATUS }}</option>
-                {% for ewi_option in ewi_options %}
-                <option value="{{ewi_option.ewi_status_name}}_{{project.project_id}}">{{ ewi_option.ewi_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>  
           </td>
           <td>
             <form method='post' action="">
@@ -240,98 +155,6 @@
                 <option class="hidden" id="hidden" hidden>{{ project.PLUMBING_STATUS }}</option>
                 {% for plumbing_option in plumbing_options %}
                 <option value="{{plumbing_option.plumbing_status_name}}_{{project.project_id}}">{{ plumbing_option.plumbing_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>  
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-              
-                {% if project.IWI_STATUS == '10 OPEN FOR SURVEY' or project.IWI_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-                <select name="iwi" class="lightyellow" id='options' onchange="submit()">
-                {% elif project.IWI_STATUS == '30 WORK ALLOCATED' or project.IWI_STATUS == '70 QC COMPLETE - SNAGS' or project.IWI_STATUS == '60 COMPLETE AWAITING QC' %}
-                <select name="iwi" class="amber" id='options' onchange="submit()">
-                {% elif project.IWI_STATUS == '40 ALLOCATED & VARIATIONS' or project.IWI_STATUS == '50 WORK IN PROGRESS' or project.IWI_STATUS == '45 Allocated Ready to Start' %}
-                <select name="iwi" class="lightgreen" id='options' onchange="submit()">
-                {% elif project.IWI_STATUS == '80 QC COMPLETE - PASS' or project.IWI_STATUS == '90 PAID & CLOSED' or project.IWI_STATUS == '100 CANCELLED CLOSED' or project.IWI_STATUS == 'Closed' %}
-                <select name="iwi" class="lightblue" id='options' onchange="submit()">
-                {% else %}
-                <select name="iwi" class="default" id='options' onchange="submit()">
-                {% endif %}
-
-                <option class="hidden" id="hidden" hidden>{{ project.IWI_STATUS }}</option>
-                {% for iwi_option in iwi_options %}
-                <option value="{{iwi_option.iwi_status_name}}_{{project.project_id}}">{{ iwi_option.iwi_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>  
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-              
-                {% if project.AIRTIGHTNESS_STATUS == '10 OPEN FOR SURVEY' or project.AIRTIGHTNESS_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-                <select name="airtightness" class="lightyellow" id='options' onchange="submit()">
-                {% elif project.AIRTIGHTNESS_STATUS == '30 WORK ALLOCATED' or project.AIRTIGHTNESS_STATUS == '70 QC COMPLETE - SNAGS' or project.AIRTIGHTNESS_STATUS == '60 COMPLETE AWAITING QC' %}
-                <select name="airtightness" class="amber" id='options' onchange="submit()">
-                {% elif project.AIRTIGHTNESS_STATUS == '40 ALLOCATED & VARIATIONS' or project.AIRTIGHTNESS_STATUS == '50 WORK IN PROGRESS' or project.AIRTIGHTNESS_STATUS == '45 Allocated Ready to Start' %}
-                <select name="airtightness" class="lightgreen" id='options' onchange="submit()">
-                {% elif project.AIRTIGHTNESS_STATUS == '80 QC COMPLETE - PASS' or project.AIRTIGHTNESS_STATUS == '90 PAID & CLOSED' or project.AIRTIGHTNESS_STATUS == '100 CANCELLED CLOSED' or project.AIRTIGHTNESS_STATUS == 'Closed' %}
-                <select name="airtightness" class="lightblue" id='options' onchange="submit()">
-                {% else %}
-                <select name="airtightness" class="default" id='options' onchange="submit()">
-                {% endif %}
-              
-                <option class="hidden" id="hidden" hidden>{{ project.AIRTIGHTNESS_STATUS }}</option>
-                {% for airtightness_option in airtightness_options %}
-                <option value="{{airtightness_option.airtightness_status_name}}_{{project.project_id}}">{{ airtightness_option.airtightness_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>  
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-              
-                {% if project.RTV_STATUS == '10 OPEN FOR SURVEY' or project.RTV_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-                <select name="rtv" class="lightyellow" id='options' onchange="submit()">
-                {% elif project.RTV_STATUS == '30 WORK ALLOCATED' or project.RTV_STATUS == '70 QC COMPLETE - SNAGS' or project.RTV_STATUS == '60 COMPLETE AWAITING QC' %}
-                <select name="rtv" class="amber" id='options' onchange="submit()">
-                {% elif project.RTV_STATUS == '40 ALLOCATED & VARIATIONS' or project.RTV_STATUS == '50 WORK IN PROGRESS' or project.RTV_STATUS == '45 Allocated Ready to Start' %}
-                <select name="rtv" class="lightgreen" id='options' onchange="submit()">
-                {% elif project.RTV_STATUS == '80 QC COMPLETE - PASS' or project.RTV_STATUS == '90 PAID & CLOSED' or project.RTV_STATUS == '100 CANCELLED CLOSED' or project.RTV_STATUS == 'Closed' %}
-                <select name="rtv" class="lightblue" id='options' onchange="submit()">
-                {% else %}
-                <select name="rtv" class="default" id='options' onchange="submit()">
-                {% endif %}
-
-                <option class="hidden" id="hidden" hidden>{{ project.RTV_STATUS }}</option>
-                {% for rtv_option in rtv_options %}
-                <option value="{{rtv_option.rtv_status_name}}_{{project.project_id}}">{{ rtv_option.rtv_status_name }}</option>
-                {% endfor %}
-              </select>
-            </form>  
-          </td>
-          <td>
-            <form method='post' action="">
-              {% csrf_token %}
-              
-                {% if project.MEV_STATUS == '10 OPEN FOR SURVEY' or project.MEV_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
-                <select name="mev" class="lightyellow" id='options' onchange="submit()">
-                {% elif project.MEV_STATUS == '30 WORK ALLOCATED' or project.MEV_STATUS == '70 QC COMPLETE - SNAGS' or project.MEV_STATUS == '60 COMPLETE AWAITING QC' %}
-                <select name="mev" class="amber" id='options' onchange="submit()">
-                {% elif project.MEV_STATUS == '40 ALLOCATED & VARIATIONS' or project.MEV_STATUS == '50 WORK IN PROGRESS' or project.MEV_STATUS == '45 Allocated Ready to Start' %}
-                <select name="mev" class="lightgreen" id='options' onchange="submit()">
-                {% elif project.MEV_STATUS == '80 QC COMPLETE - PASS' or project.MEV_STATUS == '90 PAID & CLOSED' or project.MEV_STATUS == '100 CANCELLED CLOSED' or project.MEV_STATUS == 'Closed' %}
-                <select name="mev" class="lightblue" id='options' onchange="submit()">
-                {% else %}
-                <select name="mev" class="default" id='options' onchange="submit()">
-                {% endif %}
-
-                <option class="hidden" id="hidden" hidden>{{ project.MEV_STATUS }}</option>
-                {% for mev_option in mev_options %}
-                <option value="{{mev_option.mev_status_name}}_{{project.project_id}}">{{ mev_option.mev_status_name }}</option>
                 {% endfor %}
               </select>
             </form>  
@@ -363,6 +186,220 @@
             <form method='post' action="">
               {% csrf_token %}
               
+                {% if project.RTV_STATUS == '10 OPEN FOR SURVEY' or project.RTV_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="rtv" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.RTV_STATUS == '30 WORK ALLOCATED' or project.RTV_STATUS == '70 QC COMPLETE - SNAGS' or project.RTV_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="rtv" class="amber" id='options' onchange="submit()">
+                {% elif project.RTV_STATUS == '40 ALLOCATED & VARIATIONS' or project.RTV_STATUS == '50 WORK IN PROGRESS' or project.RTV_STATUS == '45 Allocated Ready to Start' %}
+                <select name="rtv" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.RTV_STATUS == '80 QC COMPLETE - PASS' or project.RTV_STATUS == '90 PAID & CLOSED' or project.RTV_STATUS == '100 CANCELLED CLOSED' or project.RTV_STATUS == 'Closed' %}
+                <select name="rtv" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="rtv" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.RTV_STATUS }}</option>
+                {% for rtv_option in rtv_options %}
+                <option value="{{rtv_option.rtv_status_name}}_{{project.project_id}}">{{ rtv_option.rtv_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>  
+          </td>
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.DCV_STATUS == '10 OPEN FOR SURVEY' or project.DCV_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="dcv" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.DCV_STATUS == '30 WORK ALLOCATED' or project.DCV_STATUS == '70 QC COMPLETE - SNAGS' or project.DCV_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="dcv" class="amber" id='options' onchange="submit()">
+                {% elif project.DCV_STATUS == '40 ALLOCATED & VARIATIONS' or project.DCV_STATUS == '50 WORK IN PROGRESS' or project.DCV_STATUS == '45 Allocated Ready to Start' %}
+                <select name="dcv" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.DCV_STATUS == '80 QC COMPLETE - PASS' or project.DCV_STATUS == '90 PAID & CLOSED' or project.DCV_STATUS == '100 CANCELLED CLOSED' or project.DCV_STATUS == 'Closed' %}
+                <select name="dcv" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="dcv" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.DCV_STATUS }}</option>
+                {% for dcv_option in dcv_options %}
+                <option value="{{dcv_option.dcv_status_name}}_{{project.project_id}}">{{ dcv_option.dcv_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.SOLAR_STATUS == '10 OPEN FOR SURVEY' or project.SOLAR_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="solar" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.SOLAR_STATUS == '30 WORK ALLOCATED' or project.SOLAR_STATUS == '70 QC COMPLETE - SNAGS' or project.SOLAR_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="solar" class="amber" id='options' onchange="submit()">
+                {% elif project.SOLAR_STATUS == '40 ALLOCATED & VARIATIONS' or project.SOLAR_STATUS == '50 WORK IN PROGRESS' or project.SOLAR_STATUS == '45 Allocated Ready to Start' %}
+                <select name="solar" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.SOLAR_STATUS == '80 QC COMPLETE - PASS' or project.SOLAR_STATUS == '90 PAID & CLOSED' or project.SOLAR_STATUS == '100 CANCELLED CLOSED' or project.SOLAR_STATUS == 'Closed' %}
+                <select name="solar" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="solar" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.SOLAR_STATUS }}</option>
+                {% for solar_option in solar_options %}
+                <option value="{{solar_option.solar_status_name}}_{{project.project_id}}">{{ solar_option.solar_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+              {% if project.WINDOW_STATUS == '10 OPEN FOR SURVEY' or project.WINDOW_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+              <select name="window" class="lightyellow" id='options' onchange="submit()">
+              {% elif project.WINDOW_STATUS == '30 WORK ALLOCATED' or project.WINDOW_STATUS == '70 QC COMPLETE - SNAGS' or project.WINDOW_STATUS == '60 COMPLETE AWAITING QC' %}
+              <select name="window" class="amber" id='options' onchange="submit()">
+              {% elif project.WINDOW_STATUS == '40 ALLOCATED & VARIATIONS' or project.WINDOW_STATUS == '50 WORK IN PROGRESS' or project.WINDOW_STATUS == '45 Allocated Ready to Start' %}
+              <select name="window" class="lightgreen" id='options' onchange="submit()">
+              {% elif project.WINDOW_STATUS == '80 QC COMPLETE - PASS' or project.WINDOW_STATUS == '90 PAID & CLOSED' or project.WINDOW_STATUS == '100 CANCELLED CLOSED' or project.WINDOW_STATUS == 'Closed' %}
+              <select name="window" class="lightblue" id='options' onchange="submit()">
+              {% else %}
+              <select name="window" class="default" id='options' onchange="submit()">
+              {% endif %}
+                
+              <option class="hidden" id="hidden" hidden>{{ project.WINDOW_STATUS }}</option>
+                {% for window_option in window_options %}
+                <option value="{{window_option.window_status_name}}_{{project.project_id}}">{{ window_option.window_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.MEV_STATUS == '10 OPEN FOR SURVEY' or project.MEV_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="mev" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.MEV_STATUS == '30 WORK ALLOCATED' or project.MEV_STATUS == '70 QC COMPLETE - SNAGS' or project.MEV_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="mev" class="amber" id='options' onchange="submit()">
+                {% elif project.MEV_STATUS == '40 ALLOCATED & VARIATIONS' or project.MEV_STATUS == '50 WORK IN PROGRESS' or project.MEV_STATUS == '45 Allocated Ready to Start' %}
+                <select name="mev" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.MEV_STATUS == '80 QC COMPLETE - PASS' or project.MEV_STATUS == '90 PAID & CLOSED' or project.MEV_STATUS == '100 CANCELLED CLOSED' or project.MEV_STATUS == 'Closed' %}
+                <select name="mev" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="mev" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.MEV_STATUS }}</option>
+                {% for mev_option in mev_options %}
+                <option value="{{mev_option.mev_status_name}}_{{project.project_id}}">{{ mev_option.mev_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>  
+          </td>
+
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.AIRTIGHTNESS_STATUS == '10 OPEN FOR SURVEY' or project.AIRTIGHTNESS_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="airtightness" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.AIRTIGHTNESS_STATUS == '30 WORK ALLOCATED' or project.AIRTIGHTNESS_STATUS == '70 QC COMPLETE - SNAGS' or project.AIRTIGHTNESS_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="airtightness" class="amber" id='options' onchange="submit()">
+                {% elif project.AIRTIGHTNESS_STATUS == '40 ALLOCATED & VARIATIONS' or project.AIRTIGHTNESS_STATUS == '50 WORK IN PROGRESS' or project.AIRTIGHTNESS_STATUS == '45 Allocated Ready to Start' %}
+                <select name="airtightness" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.AIRTIGHTNESS_STATUS == '80 QC COMPLETE - PASS' or project.AIRTIGHTNESS_STATUS == '90 PAID & CLOSED' or project.AIRTIGHTNESS_STATUS == '100 CANCELLED CLOSED' or project.AIRTIGHTNESS_STATUS == 'Closed' %}
+                <select name="airtightness" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="airtightness" class="default" id='options' onchange="submit()">
+                {% endif %}
+              
+                <option class="hidden" id="hidden" hidden>{{ project.AIRTIGHTNESS_STATUS }}</option>
+                {% for airtightness_option in airtightness_options %}
+                <option value="{{airtightness_option.airtightness_status_name}}_{{project.project_id}}">{{ airtightness_option.airtightness_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>  
+          </td>
+
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.IWI_STATUS == '10 OPEN FOR SURVEY' or project.IWI_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="iwi" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.IWI_STATUS == '30 WORK ALLOCATED' or project.IWI_STATUS == '70 QC COMPLETE - SNAGS' or project.IWI_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="iwi" class="amber" id='options' onchange="submit()">
+                {% elif project.IWI_STATUS == '40 ALLOCATED & VARIATIONS' or project.IWI_STATUS == '50 WORK IN PROGRESS' or project.IWI_STATUS == '45 Allocated Ready to Start' %}
+                <select name="iwi" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.IWI_STATUS == '80 QC COMPLETE - PASS' or project.IWI_STATUS == '90 PAID & CLOSED' or project.IWI_STATUS == '100 CANCELLED CLOSED' or project.IWI_STATUS == 'Closed' %}
+                <select name="iwi" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="iwi" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.IWI_STATUS }}</option>
+                {% for iwi_option in iwi_options %}
+                <option value="{{iwi_option.iwi_status_name}}_{{project.project_id}}">{{ iwi_option.iwi_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>  
+          </td>
+
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.FLOOR_STATUS == '10 OPEN FOR SURVEY' or project.FLOOR_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="floor" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.FLOOR_STATUS == '30 WORK ALLOCATED' or project.FLOOR_STATUS == '70 QC COMPLETE - SNAGS' or project.FLOOR_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="floor" class="amber" id='options' onchange="submit()">
+                {% elif project.FLOOR_STATUS == '40 ALLOCATED & VARIATIONS' or project.FLOOR_STATUS == '50 WORK IN PROGRESS' or project.FLOOR_STATUS == '45 Allocated Ready to Start' %}
+                <select name="floor" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.FLOOR_STATUS == '80 QC COMPLETE - PASS' or project.FLOOR_STATUS == '90 PAID & CLOSED' or project.FLOOR_STATUS == '100 CANCELLED CLOSED' or project.FLOOR_STATUS == 'Closed' %}
+                <select name="floor" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="floor" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.FLOOR_STATUS }}</option>
+                {% for floor_option in floor_options %}
+                <option value="{{floor_option.floor_status_name}}_{{project.project_id}}">{{ floor_option.floor_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.MVHR_STATUS == '10 OPEN FOR SURVEY' or project.MVHR_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="mvhr" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.MVHR_STATUS == '30 WORK ALLOCATED' or project.MVHR_STATUS == '70 QC COMPLETE - SNAGS' or project.MVHR_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="mvhr" class="amber" id='options' onchange="submit()">
+                {% elif project.MVHR_STATUS == '40 ALLOCATED & VARIATIONS' or project.MVHR_STATUS == '50 WORK IN PROGRESS' or project.MVHR_STATUS == '45 Allocated Ready to Start' %}
+                <select name="mvhr" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.MVHR_STATUS == '80 QC COMPLETE - PASS' or project.MVHR_STATUS == '90 PAID & CLOSED' or project.MVHR_STATUS == '100 CANCELLED CLOSED' or project.MVHR_STATUS == 'Closed' %}
+                <select name="mvhr" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="mvhr" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.MVHR_STATUS }}</option>
+                {% for mvhr_option in mvhr_options %}
+                <option value="{{mvhr_option.mvhr_status_name}}_{{project.project_id}}">{{ mvhr_option.mvhr_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+        
+          
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
                 {% if project.DRAUGHTPROOFING_STATUS == '10 OPEN FOR SURVEY' or project.DRAUGHTPROOFING_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
                 <select name="draughtproofing" class="lightyellow" id='options' onchange="submit()">
                 {% elif project.DRAUGHTPROOFING_STATUS == '30 WORK ALLOCATED' or project.DRAUGHTPROOFING_STATUS == '70 QC COMPLETE - SNAGS' or project.DRAUGHTPROOFING_STATUS == '60 COMPLETE AWAITING QC' %}
@@ -382,27 +419,78 @@
               </select>
             </form>
           </td>
+
           <td>
             <form method='post' action="">
               {% csrf_token %}
-              {% if project.QC_STATUS == '010 NOT READY FOR MID' %}
-              <select name="qc_mid_final" class="lightyellow" id='options' onchange="submit()">
-              {% elif project.QC_STATUS == '030 MID COMPLETE - SNAGS FOUND' or project.QC_STATUS == '070 FINAL COMPLETE - SNAGS' or project.QC_STATUS == '080 FINAL COMPLETE SEAI REWORKS' %}
-              <select name="qc_mid_final" class="amber" id='options' onchange="submit()">
-              {% elif project.QC_STATUS == '020 READY FOR MIDWORKS' or project.QC_STATUS == '050 READY FOR FINAL QC' %}
-              <select name="qc_mid_final" class="lightred" id='options' onchange="submit()">
-              {% elif project.QC_STATUS == '040 MID COMPLETE - PASS' or project.QC_STATUS == '060 FINAL COMPLETE PASS' %}
-              <select name="qc_mid_final" class="lightblue" id='options' onchange="submit()">
-              {% else %}
-              <select name="qc_mid_final" class="default" id='options' onchange="submit()">
-              {% endif %}
-                <option class="hidden" id="hidden" hidden>{{ project.QC_STATUS }}</option>
-                {% for qc_option in qc_options %}
-                <option value="{{qc_option.qc_stage_name}}_{{project.project_id}}">{{ qc_option.qc_stage_name }}</option>
+              
+                {% if project.FINAL_BER_STATUS == '10 OPEN FOR SURVEY' or project.FINAL_BER_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="final_ber" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.FINAL_BER_STATUS == '30 WORK ALLOCATED' or project.FINAL_BER_STATUS == '70 QC COMPLETE - SNAGS' or project.FINAL_BER_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="final_ber" class="amber" id='options' onchange="submit()">
+                {% elif project.FINAL_BER_STATUS == '40 ALLOCATED & VARIATIONS' or project.FINAL_BER_STATUS == '50 WORK IN PROGRESS' or project.FINAL_BER_STATUS == '45 Allocated Ready to Start' %}
+                <select name="final_ber" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.FINAL_BER_STATUS == '80 QC COMPLETE - PASS' or project.FINAL_BER_STATUS == '90 PAID & CLOSED' or project.FINAL_BER_STATUS == '100 CANCELLED CLOSED' or project.FINAL_BER_STATUS == 'Closed' %}
+                <select name="final_ber" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="final_ber" class="default" id='options' onchange="submit()">
+                {% endif %}
+                <option class="hidden" id="hidden" hidden>{{ project.FINAL_BER_STATUS }}</option>
+                {% for final_ber_option in final_ber_options %}
+                <option value="{{final_ber_option.final_ber_status_name}}_{{project.project_id}}">{{ final_ber_option.final_ber_status_name }}</option>
                 {% endfor %}
               </select>
             </form>
           </td>
+          
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.DOW_STATUS == '10 OPEN FOR SURVEY' or project.DOW_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="dow" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.DOW_STATUS == '30 WORK ALLOCATED' or project.DOW_STATUS == '70 QC COMPLETE - SNAGS' or project.DOW_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="dow" class="amber" id='options' onchange="submit()">
+                {% elif project.DOW_STATUS == '40 ALLOCATED & VARIATIONS' or project.DOW_STATUS == '50 WORK IN PROGRESS' or project.DOW_STATUS == '45 Allocated Ready to Start' %}
+                <select name="dow" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.DOW_STATUS == '80 QC COMPLETE - PASS' or project.DOW_STATUS == '90 PAID & CLOSED' or project.DOW_STATUS == '100 CANCELLED CLOSED' or project.DOW_STATUS == 'Closed' %}
+                <select name="dow" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="dow" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.DOW_STATUS }}</option>
+                {% for dow_option in dow_options %}
+                <option value="{{dow_option.dow_status_name}}_{{project.project_id}}">{{ dow_option.dow_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+
+          <td>
+            <form method='post' action="">
+              {% csrf_token %}
+              
+                {% if project.CO_INVOICES_STATUS == '10 OPEN FOR SURVEY' or project.CO_INVOICES_STATUS == '20 SURVEYED AWAITING ALLOCATION' %}
+                <select name="co_invoices" class="lightyellow" id='options' onchange="submit()">
+                {% elif project.CO_INVOICES_STATUS == '30 WORK ALLOCATED' or project.CO_INVOICES_STATUS == '70 QC COMPLETE - SNAGS' or project.CO_INVOICES_STATUS == '60 COMPLETE AWAITING QC' %}
+                <select name="co_invoices" class="amber" id='options' onchange="submit()">
+                {% elif project.CO_INVOICES_STATUS == '40 ALLOCATED & VARIATIONS' or project.CO_INVOICES_STATUS == '50 WORK IN PROGRESS' or project.CO_INVOICES_STATUS == '45 Allocated Ready to Start' %}
+                <select name="co_invoices" class="lightgreen" id='options' onchange="submit()">
+                {% elif project.CO_INVOICES_STATUS == '80 QC COMPLETE - PASS' or project.CO_INVOICES_STATUS == '90 PAID & CLOSED' or project.CO_INVOICES_STATUS == '100 CANCELLED CLOSED' or project.CO_INVOICES_STATUS == 'Closed' %}
+                <select name="co_invoices" class="lightblue" id='options' onchange="submit()">
+                {% else %}
+                <select name="co_invoices" class="default" id='options' onchange="submit()">
+                {% endif %}
+
+                <option class="hidden" id="hidden" hidden>{{ project.CO_INVOICES_STATUS }}</option>
+                {% for co_invoices_option in co_invoices_options %}
+                <option value="{{co_invoices_option.co_invoices_status_name}}_{{project.project_id}}">{{ co_invoices_option.co_invoices_status_name }}</option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+
           <td class='headcol' id='headcol'>{{project.project_name}}</td>
         </tr>
         {% endfor %}
@@ -412,22 +500,25 @@
           <th>Project Name</th>
           <th>Project Number</th>
           <th>Office</th>
-          <th>Main Stage (Admin)</th>
-          <th>GNI (Admin)</th>
-          <th>ESB (Admin)</th>
-          <th>WINDOW</th>
+          <th>Project Stage</th>
+          <th>QC Mid/Final</th>
+          <th>EWI</th>
           <th>CWI</th>
-          <th>OIL BOILER</th>
-          <th>OIL TANK</th>
-          <th>EWI</th>        
-          <th>PLUMBING</th>
-          <th>IWI</th>
-          <th>AIRTIGHTNESS</th>
+          <th>Plumbing</th>
+          <th>Attic</th>
           <th>RTV</th>
+          <th>DCV</th>
+          <th>Solar</th>        
+          <th>Windows</th>
           <th>MEV</th>
-          <th>ATTIC</th>
-          <th>DRAUGHTPROOFING</th>
-          <th>QC Mid/Final (Admin)</th>
+          <th>Airtightness</th>
+          <th>IWI</th>
+          <th>Floor</th>
+          <th>MVHR</th>
+          <th>Draughtproofing</th>
+          <th>Final BER</th>
+          <th>DOW</th>
+          <th>C/O Invoices</th>
           <th>Project Name</th>
         </tr>
       </thead>

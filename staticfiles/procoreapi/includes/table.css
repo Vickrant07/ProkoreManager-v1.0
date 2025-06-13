@@ -26,7 +26,7 @@
 #table tbody {
   font-family: "Roboto Condensed", sans-serif;
   font-size: 0.85rem;
-  color: #c2e9e0;
+  color: #000000;
 }
 
 .default {
@@ -34,13 +34,13 @@
   padding: 0.5rem;
   border: 1px solid #76c0ae;
   border-radius: 0.25rem;
-  background-color: #255c4f;
-  color: #c2e9e0;
+  background-color: #70b8a7;
+  color: #000000;
   font-size: 0.75rem;
 }
 
 #headcol {
-  background: rgb(59, 50, 162);
+  background: rgb(153, 149, 194);
   position: sticky;
   left: 0;
 }
@@ -62,7 +62,7 @@ tbody tr:hover {
   border: 1px solid #76c0ae;
   border-radius: 0.25rem;
   background-color: rgb(0, 156, 52);
-  color: #c2e9e0;
+  color: #000000;
   font-size: 0.75rem;
 }
 
@@ -70,8 +70,8 @@ tbody tr:hover {
   padding: 0.5rem;
   border: 1px solid #76c0ae;
   border-radius: 0.25rem;
-  background-color: #b37a00;
-  color: #c2e9e0;
+  background-color: #c97350;
+  color: #000000;
   font-size: 0.75rem;
 }
 
@@ -79,8 +79,8 @@ tbody tr:hover {
   padding: 0.5rem;
   border: 1px solid #76c0ae;
   border-radius: 0.25rem;
-  background-color: #909000;
-  color: #c2e9e0;
+  background-color: #adad42;
+  color: #000000;
   font-size: 0.75rem;
 }
 
@@ -88,8 +88,8 @@ tbody tr:hover {
   padding: 0.5rem;
   border: 1px solid #76c0ae;
   border-radius: 0.25rem;
-  background-color: #a01414;
-  color: #c2e9e0;
+  background-color: #b66a6a;
+  color: #000000;
   font-size: 0.75rem;
 }
 
@@ -97,7 +97,7 @@ tbody tr:hover {
   padding: 0.5rem;
   border: 1px solid #76c0ae;
   border-radius: 0.25rem;
-  background-color: #3969cf;
-  color: #c2e9e0;
+  background-color: #6f85b3;
+  color: #000000;
   font-size: 0.75rem;
 }
